@@ -31,4 +31,27 @@ class StoreEmployeeRequest extends FormRequest
             'phone' => 'nullable|string|max:20', //phone is not required
         ];
     }
+
+    public function messages(): array //messages in case of errors with validation
+    {
+        return 
+        [
+            'company_id.required' => 'Employee need Company.',
+            'company_id.exists' => 'We cant find this Company. Try another.',
+
+            'first_name.required' => 'Name is required.',
+            'first_name.string' => 'Name must be string.',
+            'first_name.max' => 'Name is no longer than 255 letters.',
+
+            'last_name.required' => 'Last name is required.',
+            'last_name.string' => 'Last name must be text.',
+            'last_name.max' => 'Last name is no longer than 255 letters.',
+
+            'email.required' => 'Email is required.',
+            'email.email' => 'Write correct email.',
+
+            'phone.string' => 'Phone must be text.',
+            'phone.max' => 'Phone number is no longer than 20 letters.',
+        ];
+}
 }

@@ -30,4 +30,28 @@ class StoreCompanyRequest extends FormRequest
             'postal_code' => 'required|string',
         ];
     }
+
+    public function messages(): array //messages in case of any errors with validation
+    {
+        return 
+        [
+            'name.required' => 'Name of company is required.',
+            'name.string' => 'Name of company must be text.',
+            'name.max' => 'Name of company is no longer than 255 letters.',
+
+            'nip.required' => 'NIP is required.',
+            'nip.unique' => 'We have this NIP in db. Try another NIP',
+            'nip.string' => 'NIP must be text',
+            'nip.max' => 'NIP is no longer than 20 letters.',
+
+            'adress.required' => 'We need your adress.',
+            'adress.string' => 'Adress must be text.',
+
+            'city.required' => 'Write your city.',
+            'city.string' => 'City must be text.',
+
+            'postal_code.required' => 'Write postal code :).',
+            'postal_code.string' => 'Postal code must be string.',
+        ];
+    }
 }
