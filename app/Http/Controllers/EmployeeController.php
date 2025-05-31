@@ -3,50 +3,103 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
-use App\Http\Requests\StoreEmployeeRequest;
-
+use App\Http\Requests\StoreEmployeeRequest; //to validate to create and update employee
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // all employyes
     public function index()
     {
-        return Employee::with('company')->get();
+        $employees = Employee::with('company')->get();
+        return response()->json
+        (
+        [
+            'message' => 'Employees list',
+            'data' => $employees
+        ], 200
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // create new employee with company
     public function store(StoreEmployeeRequest $request)
     {
-        return Employee::create($request->validated());
+            $employee = Employee::create($request->validated());
+            return response()->json
+            (
+            [
+                'message' => 'Employee added.',
+                'data' => $employee
+            ], 201
+            );
     }
 
-    /**
-     * Display the specified resource.
-     */
+    // show single employee
     public function show(Employee $employee)
     {
-        return $employee->load('company');
+        return response()->json
+        (
+        [
+            'message' => 'Employye details',
+            'data' => $employee->load('company')
+        ], 200
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // update single employee
     public function update(StoreEmployeeRequest $request, Employee $employee)
     {
-        $employee->update($request->validated());
-        return $employee;
+        try
+        {
+            $employee->update($request->validated());
+            return response()->json
+            (
+            [
+                'message' => 'Employee updated.',
+                'data' => $employee
+            ], 200
+            );
+        }
+        catch (\Exception $e) 
+        {
+            //error log (storage/logs/laravel.log)
+            Log::error('Emloyee not updated: ' . $e->getMessage());
+            return response()->json
+            (
+            [
+                'message' => 'Error while updating.',
+                'error' => $e->getMessage()
+            ], 500
+            );
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    //delete single employee
     public function destroy(Employee $employee)
     {
-        $employee->delete();
-        return response()->noContent();
+        try
+        {
+            $employee->delete();
+
+            return response()->json
+            (
+            [
+                'message' => 'Employee deleted successfully.'
+            ], 200
+            );
+        }
+        catch (\Exception $e) 
+        {
+            //error log (storage/logs/laravel.log)
+            Log::error('Employee not deleted: ' . $e->getMessage());
+            return response()->json
+            (
+            [
+                'message' => 'Error while deleting employee.',
+                'error' => $e->getMessage()
+            ], 500
+            );
+        }
     }
 }
