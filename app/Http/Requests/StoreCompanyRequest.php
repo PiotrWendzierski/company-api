@@ -11,7 +11,7 @@ class StoreCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,7 @@ class StoreCompanyRequest extends FormRequest
             'name' => 'required|string|max:255',
             'nip' => 'required|string|max:20',
             'adress' => 'required|string',
-            'city' => 'required|string'
+            'city' => 'required|string',
             'postal_code' => 'required|string',
         ];
     }
