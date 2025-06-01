@@ -25,10 +25,10 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'company_id' => 'required|exists:companies,id', //create or update, only if his company exists
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255|regex:/^[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż\s\-]+$/u',
+            'last_name' => 'required|string|max:255|regex:/^[A-Za-zĄĆĘŁŃÓŚŹŻąćęłńóśźż\s\-]+$/u',
             'email' => 'required|email|',
-            'phone' => 'nullable|string|max:20', //phone is not required
+            'phone' => 'nullable|string|max:20|regex:/^[0-9+\-\s\(\)]+$/', //phone is not required
         ];
     }
 
@@ -42,16 +42,19 @@ class StoreEmployeeRequest extends FormRequest
             'first_name.required' => 'Name is required.',
             'first_name.string' => 'Name must be string.',
             'first_name.max' => 'Name is no longer than 255 letters.',
+            'first_name.regex' => 'Name must contain only letters, spaces or hyphens.',
 
             'last_name.required' => 'Last name is required.',
             'last_name.string' => 'Last name must be text.',
             'last_name.max' => 'Last name is no longer than 255 letters.',
+            'last_name.regex' => 'Last must contain only letters, spaces or hyphens.',
 
             'email.required' => 'Email is required.',
             'email.email' => 'Write correct email.',
 
             'phone.string' => 'Phone must be text.',
-            'phone.max' => 'Phone number is no longer than 20 letters.',
+            'phone.max' => 'Phone is no longer than 20 signs.',
+            'phone.regex' => 'Phone number can only include number, spaces, +, -, or ().',
         ];
 }
 }
