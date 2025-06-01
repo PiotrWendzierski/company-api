@@ -1,6 +1,6 @@
 # 📦 Laravel REST API – Company & Employees Manager
 
-A REST API built with Laravel for managing **companies** and their **employees**. Fully supports CRUD operations, request validation, and error logging.
+A REST API built with Laravel for managing **companies** and their **employees**. Fully supports CRUD operations, request validation, API token authentication with Laravel Sanctum, and error logging..
 
 ---
 
@@ -24,9 +24,35 @@ composer install
 
 # Set your DB in .env
 
+composer require laravel/breeze
+
+php artisan breeze:install
+
+# choose blade
+
+# choose y
+
+# choose 0
+
 php artisan migrate
 
 php -S localhost:9000 -t public/ 
+```
+
+---
+
+## 🔐 Authentication (Laravel Sanctum)
+
+This API uses **Sanctum tokens** for authorization.
+
+### 🔑 How to get a token:
+
+1. Visit `/register` or `/login` in browser.
+2. Go to `/user/profile` to generate a token (via `$user->createToken()`).
+3. Use that token in Postman under **Authorization → Bearer Token**.
+
+```
+Authorization: Bearer YOUR_API_TOKEN
 ```
 
 ---
@@ -106,6 +132,7 @@ You can:
 
 - `phone` is optional for employees  
 - `nip` must be unique for each company
+-  API requires token-based authentication for all requests.
 
 ---
 
